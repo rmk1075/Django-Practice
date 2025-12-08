@@ -61,3 +61,71 @@ Django-Practice
 ```shell
 $ python manage.py runserver
 ```
+
+## 2. Init Django Application
+
+### django application
+
+#### create django application
+
+```shell
+# create app "hello"
+$ python manage.py startapp hello
+```
+
+- <https://docs.djangoproject.com/en/6.0/intro/tutorial01/#creating-the-polls-app>
+
+#### application structure
+
+```shell
+hello
+├── __init__.py
+├── admin.py
+├── apps.py
+├── migrations
+│   └── __init__.py
+├── models.py
+├── tests.py
+└── views.py
+```
+
+#### create Hello World api
+
+```python
+# hello/views.py
+
+# create hello_world function
+from django.http import HttpResponse
+
+
+def hello_world(request):
+    return HttpResponse("Hello World")
+```
+
+```python
+# hello/urls.py
+
+# create hello/urls.py for url configuration for app 'hello'
+# add '/world' url configuration
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path("world", views.hello_world, name="world"),
+]
+```
+
+```python
+# myproject/urls.py
+
+# add '/hello' url configuration to root urls.py
+# include(...) references url configuration in hello.urls module 
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('hello/', include('hello.urls'))
+]
+```
