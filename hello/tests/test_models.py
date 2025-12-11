@@ -3,21 +3,21 @@ from django.test import TestCase
 from hello.models import Greeting
 
 
+GREETINGS_MAP = {
+    "KR": "안녕하세요",
+    "US": "Hello",
+    "JP": "こんにちは",
+    "FR": "Bonjour",
+    "DE": "Guten Tag",
+    "ES": "Hola",
+    "IT": "Ciao",
+    "GB": "Hello",
+}
+
 class TestModels(TestCase):
     def test_greeting_crud(self):
-        greetings_map = {
-            "KR": "안녕하세요",
-            "US": "Hello",
-            "JP": "こんにちは",
-            "FR": "Bonjour",
-            "DE": "Guten Tag",
-            "ES": "Hola",
-            "IT": "Ciao",
-            "GB": "Hello",
-        }
-
         # create objects
-        for k, v in greetings_map.items():
+        for k, v in GREETINGS_MAP.items():
             greeting = Greeting(country=k, greeting=v)
             greeting.save()
 
@@ -38,3 +38,12 @@ class TestModels(TestCase):
         # delete objects
         Greeting.objects.all().delete()
         self.assertEqual(len(Greeting.objects.all()), 0)
+
+    def test_custom_manager(self):
+        for k, v in GREETINGS_MAP.items():
+            greeting = Greeting(country=k, greeting=v)
+            greeting.save()
+
+        greeting = Greeting.korea.get_kr()
+        self.assertEqual(greeting.greeting, GREETINGS_MAP.get("KR"))
+
