@@ -211,3 +211,82 @@ Running migrations:
   Applying hello.0001_initial... OK
   Applying sessions.0001_initial... OK
 ```
+
+## 4. Model Query
+
+### model manager
+
+#### objects
+
+```python
+# django.db.models.base.pyi
+class Model(metaclass=ModelBase):
+    # ...
+
+    _default_manager: ClassVar[BaseManager[Self]]
+    objects: ClassVar[BaseManager[Self]]
+
+    # ...
+```
+
+#### custom manager
+
+```python
+from django.db import models
+
+
+class KoreaManager(models.Manager):
+    def get_kr(self):
+        return self.get(country="KR")
+
+class Greeting(models.Model):
+    objects = models.Manager() # default manager
+    korea = KoreaManager() # custom manager
+
+    # ...
+```
+
+### objects query
+
+#### create object
+
+```python
+# save()
+greeting = Greeting(country="KR", greeting="안녕하세요")
+greeting.save()
+
+# create()
+Greeting.objects.create(country="US", greeting="Hello")
+```
+
+#### update object
+
+```python
+hello = Greeting.objects.get(country="US")
+hello.greeting = "Hi"
+hello.save()
+```
+
+#### retrieve object
+
+```python
+# all
+Greeting.objects.all()
+
+# filter
+Greeting.objects.filter(greeting="Hello")
+
+# get
+Greeting.objects.get(country="KR")
+```
+
+#### delete object
+
+```python
+# delete
+hello = Greeting.objects.get(country="US")
+hello.delete()
+
+# delete all
+Greeting.objects.all().delete()
+```
