@@ -290,3 +290,42 @@ hello.delete()
 # delete all
 Greeting.objects.all().delete()
 ```
+
+## 5. Django Settings
+
+### DJANGO_SETTINGS_MODULE
+
+```python
+# manage.py
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+```
+
+### use settings
+
+```python
+from django.conf import settings
+
+if settings.DEBUG:
+    print("DEBUG MODE")
+```
+
+### multi settings
+
+#### settings structure
+
+```
+myproject/settings/
+├── base.py
+├── local.py
+└── test.py
+```
+
+#### apply multi settings
+
+```python
+# manage.py
+def main():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings.local')
+    ...
+```
+
