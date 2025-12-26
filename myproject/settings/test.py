@@ -20,5 +20,9 @@ CACHES = {
             "MAX_ENTRIES": FILE_CACHE_MAX_ENTRIES,
             "CULL_FREQUENCY": FILE_CACHE_CULL_FREQUENCY,
         }
+    },
+    "redis_cache": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
     }
 }
