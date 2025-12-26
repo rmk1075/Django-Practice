@@ -290,3 +290,80 @@ hello.delete()
 # delete all
 Greeting.objects.all().delete()
 ```
+
+## 5. Django Settings
+
+### DJANGO_SETTINGS_MODULE
+
+#### manage.py
+
+```python
+# manage.py
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+```
+
+#### django.conf.settings
+
+```python
+ENVIRONMENT_VARIABLE = "DJANGO_SETTINGS_MODULE"
+
+class LazySettings(LazyObject):
+    def _setup(self, name=None):
+        """
+        Load the settings module pointed to by the environment variable. This
+        is used the first time settings are needed, if the user hasn't
+        configured settings manually.
+        """
+        settings_module = os.environ.get(ENVIRONMENT_VARIABLE)
+
+        # ...
+
+        self._wrapped = Settings(settings_module)
+
+    # ...
+
+settings = LazySettings()
+```
+
+### use settings
+
+```python
+from django.conf import settings
+
+if settings.DEBUG:
+    print("DEBUG MODE")
+```
+
+### multi settings
+
+#### settings structure
+
+```
+myproject/settings/
+├── base.py
+├── local.py
+└── test.py
+```
+
+```python
+# local.py
+from myproject.settings.base import *
+
+SETTINGS_MODE = "LOCAL"
+
+
+# test.py
+from myproject.settings.base import *
+
+SETTINGS_MODE = "TEST"
+```
+
+#### apply multi settings
+
+```python
+# manage.py
+def main():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings.local')
+    ...
+```
+
