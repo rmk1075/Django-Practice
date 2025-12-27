@@ -367,3 +367,63 @@ def main():
     ...
 ```
 
+## 6. Caching
+
+### Django Cache
+
+#### django cache framework
+
+```python
+from django.core.cache import cache
+
+cache.set(k, v)
+
+cache.get(k)
+```
+
+#### Local-memory caching
+
+```python
+# settings.py
+
+# define default cache by Local-memory cache
+# Local-memory cache is django default cache
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache"
+    }
+}
+```
+
+#### FileSystem caching
+
+```python
+#settings.py
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "django_cache" / "file_cache",
+        "OPTIONS": {
+            "MAX_ENTRIES": FILE_CACHE_MAX_ENTRIES,
+            "CULL_FREQUENCY": FILE_CACHE_CULL_FREQUENCY,
+        }
+    }
+}
+```
+
+#### Redis caching
+
+```shell
+# install redis module
+$ pip install redis
+```
+
+```python
+# settings.py
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://{url}:{port}",
+    }
+}
+```
