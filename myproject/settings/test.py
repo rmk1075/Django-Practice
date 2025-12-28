@@ -32,6 +32,12 @@ DEBUG_LOG_FILE = BASE_DIR / "log" / "debug.log"
 LOGGING = {
     "version": 1,  # the dictConfig format version
     "disable_existing_loggers": False,  # retain the default loggers
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
@@ -40,7 +46,12 @@ LOGGING = {
         "file": {
             "class": "logging.FileHandler",
             "filename": DEBUG_LOG_FILE,
-            "level": "DEBUG"
+            "level": "DEBUG",
+        },
+        "formatted_console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "verbose",
         },
     },
     "loggers": {
@@ -52,5 +63,9 @@ LOGGING = {
             "level": "DEBUG",
             "handlers": ["file"],
         },
+        "console_debug_with_format": {
+            "level": "DEBUG",
+            "handlers": ["formatted_console"],
+        }
     }
 }

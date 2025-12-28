@@ -7,6 +7,7 @@ from django.test import TestCase
 logger = logging.getLogger(__name__)
 console_debug_logger = logging.getLogger("console_debug")
 file_debug_logger = logging.getLogger("file_debug")
+console_debug_with_format_logger = logging.getLogger("console_debug_with_format")
 
 class TestLoggings(TestCase):
     def setUp(self):
@@ -40,3 +41,10 @@ class TestLoggings(TestCase):
             self.assertEqual(f.readline().strip(), "warning")
             self.assertEqual(f.readline().strip(), "error")
             self.assertEqual(f.readline().strip(), "critical")
+
+    def test_console_debug_with_format_logger(self):
+        console_debug_with_format_logger.debug("debug")
+        console_debug_with_format_logger.info("info")
+        console_debug_with_format_logger.warning("warning")
+        console_debug_with_format_logger.error("error")
+        console_debug_with_format_logger.critical("critical")
