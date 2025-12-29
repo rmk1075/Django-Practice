@@ -1,5 +1,4 @@
 import logging
-import os
 from django.conf import settings
 from django.test import TestCase
 
@@ -48,3 +47,12 @@ class TestLoggings(TestCase):
         console_info_with_format_logger.warning("warning")
         console_info_with_format_logger.error("error")
         console_info_with_format_logger.critical("critical")
+
+    def test_console_loggers(self):
+        loggers = [logger, console_debug_logger, console_info_with_format_logger]
+        for l in loggers:
+            l.debug("debug") # skipped
+            l.info("info") # skipped
+            l.warning("warning")
+            l.error("error")
+            l.critical("critical")
