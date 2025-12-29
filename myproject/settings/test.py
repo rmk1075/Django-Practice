@@ -63,8 +63,8 @@ LOGGING = {
             "level": "DEBUG",
             "handlers": ["file"],
         },
-        "console_debug_with_format": {
-            "level": "DEBUG",
+        "console_info_with_format": {
+            "level": "INFO",
             "handlers": ["formatted_console"],
         }
     }
