@@ -51,8 +51,8 @@ class TestLoggings(TestCase):
     def test_console_loggers(self):
         loggers = [logger, console_debug_logger, console_info_with_format_logger]
         for l in loggers:
-            l.debug("debug") # skipped
-            l.info("info") # skipped
+            l.debug("debug")
+            l.info("info")
             l.warning("warning")
             l.error("error")
             l.critical("critical")
