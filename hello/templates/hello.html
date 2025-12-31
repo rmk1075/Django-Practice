@@ -1,16 +1,195 @@
-<table>
-    <thead>
-        <tr>
-            <th>country</th>
-            <th>greeting</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for greeting in result %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Department List</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* 테이블 박스 */
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            border: 1px solid #e0e5ea;
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f2f4f8;
+            color: #333;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        tr:hover {
+            background-color: #f5f7fa;
+        }
+
+        /* form 전체 감싸는 박스 */
+        .form-container {
+            width: 70%;
+            background-color: #fff;
+            margin-top: 25px;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-container h2 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e5ea;
+            padding-bottom: 6px;
+        }
+
+        .form-container form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .form-container input {
+            flex: 1;
+            min-width: 200px;
+            padding: 8px 10px;
+            border: 1px solid #ccd3da;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .form-container button {
+            padding: 8px 18px;
+            border: none;
+            background-color: #3a7afe;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .form-container button:hover {
+            background-color: #2e64e0;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            padding: 16px 0;
+        }
+
+        .alert-box {
+            width: 70%;
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            background-color: #e8f1ff;
+            border: 1px solid #c7dcff;
+            color: #1f4fd8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .alert-message {
+            font-size: 0.95rem;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f4fd8;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .alert-close:hover {
+            color: #143aa8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Department List</h1>
+
+    <!-- 📋 Department Table -->
+    <table>
+        <thead>
             <tr>
-                <td>{{ greeting.country }}</td>
-                <td>{{ greeting.greeting }}</td>
+                <th>Country</th>
+                <th>Greeting</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for greeting in result %}
+                <tr>
+                    <td>{{ greeting.country }}</td>
+                    <td>{{ greeting.greeting }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-message">No greetings found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Add Greeting -->
+    <div class="form-container">
+        <h2>Add New Greeting</h2>
+        <form method="post" action="{% url 'hello' %}">
+            {% csrf_token %}
+            <input type="text" name="country" placeholder="Country" required>
+            <input type="text" name="greeting" placeholder="Greeting" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    {% if created %}
+        <div class="alert-box" id="created-alert">
+            <span class="alert-message">
+                {{ created }}
+            </span>
+            <button class="alert-close" onclick="closeAlert()">×</button>
+        </div>
+    {% endif %}
+</body>
+<script>
+    function closeAlert() {
+        const alert = document.getElementById("created-alert");
+        if (alert) {
+            alert.style.display = "none";
+        }
+    }
+</script>
+</html>
