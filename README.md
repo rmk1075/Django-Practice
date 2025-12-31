@@ -338,7 +338,7 @@ if settings.DEBUG:
 
 #### settings structure
 
-```
+```shell
 myproject/settings/
 ├── base.py
 ├── local.py
@@ -499,4 +499,50 @@ def test_console_loggers(self):
         l.warning("warning")
         l.error("error")
         l.critical("critical")
+```
+
+## 8. View
+
+### Basic View
+
+#### view template
+
+```shell
+/hello/templates/
+└── hello.html
+```
+
+```html
+<table>
+    <thead>
+        <tr>
+            <th>country</th>
+            <th>greeting</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for greeting in result %}
+            <tr>
+                <td>{{ greeting.country }}</td>
+                <td>{{ greeting.greeting }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+```
+
+#### view class
+
+```python
+from django.shortcuts import render
+from django.views import View
+
+
+class HelloView(View):
+    def get(self, request, *args, **kwargs):
+        result = [{"country": greeting.country, "greeting": greeting.greeting} for greeting in Greeting.objects.all()]
+        return render(request, "hello.html", {"result": result})
+
+    def post(self, request, *args, **kwargs) -> JsonResponse:
+        # ...
 ```
