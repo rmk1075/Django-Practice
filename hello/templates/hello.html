@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>country</th>
+            <th>greeting</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for greeting in result %}
+            <tr>
+                <td>{{ greeting.country }}</td>
+                <td>{{ greeting.greeting }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
