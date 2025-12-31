@@ -427,3 +427,76 @@ CACHES = {
     }
 }
 ```
+
+## 7. Logging
+
+### Logging Configuration
+
+```python
+# myproject/settings/test.py
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        # print out log on console
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+        },
+        # write log on file
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": DEBUG_LOG_FILE,
+            "level": "DEBUG",
+        },
+        # write formatted log on console
+        "formatted_console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "verbose", # use verbose formatter
+        },
+    },
+    "loggers": {
+        "console_debug": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
+        "file_debug": {
+            "level": "DEBUG",
+            "handlers": ["file"],
+        },
+        "console_info_with_format": {
+            "level": "INFO",
+            "handlers": ["formatted_console"],
+        }
+    }
+}
+```
+
+### Use Loggers
+
+```python
+# myproject/tests/test_logging.py
+
+# get loggers
+logger = logging.getLogger(__name__) # root logger
+console_debug_logger = logging.getLogger("console_debug")
+file_debug_logger = logging.getLogger("file_debug")
+console_info_with_format_logger = logging.getLogger("console_info_with_format")
+
+# test loggers
+def test_console_loggers(self):
+    loggers = [logger, console_debug_logger, console_info_with_format_logger]
+    for l in loggers:
+        l.debug("debug")
+        l.info("info")
+        l.warning("warning")
+        l.error("error")
+        l.critical("critical")
+```

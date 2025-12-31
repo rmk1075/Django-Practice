@@ -26,3 +26,46 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379",
     }
 }
+
+DEBUG_LOG_FILE = BASE_DIR / "log" / "debug.log"
+
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": DEBUG_LOG_FILE,
+            "level": "DEBUG",
+        },
+        "formatted_console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "console_debug": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
+        "file_debug": {
+            "level": "DEBUG",
+            "handlers": ["file"],
+        },
+        "console_info_with_format": {
+            "level": "INFO",
+            "handlers": ["formatted_console"],
+        }
+    }
+}
