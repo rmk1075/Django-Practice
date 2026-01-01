@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views import View
 
 from hello.models import GREETINGS_MAP, Greeting
