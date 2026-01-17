@@ -8,6 +8,12 @@ from hello.models import GREETINGS_MAP, Greeting
 def hello_world(request):
     return HttpResponse("Hello World")
 
+
+class HelloWorldView(View):
+    def get(self, request):
+        return HttpResponse("Hello World")
+
+
 def init_greetings(request):
     created_greetings = []
     for country, greeting in GREETINGS_MAP.items():
